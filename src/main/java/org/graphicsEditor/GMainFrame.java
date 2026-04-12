@@ -1,6 +1,8 @@
 package org.graphicsEditor;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
@@ -24,10 +26,19 @@ public class GMainFrame extends JFrame {
 
 		this.setLayout(new BorderLayout());
 
-		this.toolBar = new GShapeToolBar();
+		this.toolBar = new GShapeToolBar(new ToolButtonActionHandler());
 		this.add(toolBar, BorderLayout.NORTH);
 
 		this.drawingPanel = new GDrawingPanel();
 		this.add(drawingPanel, BorderLayout.CENTER);
+	}
+
+	private class ToolButtonActionHandler implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			GShape.EShapeType shapeType = GShape.EShapeType.valueOf(e.getActionCommand());
+			drawingPanel.setCurrentShapeType(shapeType);
+		}
 	}
 }
